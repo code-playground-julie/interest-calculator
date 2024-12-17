@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>적금할까 예금할까?</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      color: #333;
+      font-size: 2.5rem;
+    }
+    p {
+      font-size: 1.2rem;
+      color: #555;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .input-container input {
+      width: 200px;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .input-container label {
+      font-size: 1rem;
+      color: #333;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>적금할까 예금할까?</h1>
+  <p>높은 이율의 적금을 고민하는 당신, 조금 더 낮은 이자의 예금을 선택하는 것이 나을 수 있습니다.</p>
+  <div class="input-container">
+    <label for="monthly-savings">월 적금액</label>
+    <input type="text" id="monthly-savings" placeholder="월 적금액 입력 (₩)">
+    <label for="savings-duration">적금 기간 (개월)</label>
+    <input type="number" id="savings-duration" placeholder="기간 입력 (개월)">
+    <label for="interest-rate">이율 (%)</label>
+    <input type="number" id="interest-rate" placeholder="이율 입력 (%)">
+    <button onclick="calculateSavings()">변환하기</button>
+  </div>
+  <div class="result" id="result_interest">예금 이자 변환 결과</div>
+  <div class="result" id="result_amount">총 이자</div>
+
+  <script>
+    // 월 적금액 입력 시 실시간 포맷팅 적용
+    const monthlySavingsInput = document.getElementById('monthly-savings');
+    monthlySavingsInput.addEventListener('input', (event) => {
+      let rawValue = event.target.value.replace(/,/g, ''); // 기존 콤마 제거
+      console.log('rawValue = ', rawValue)
+      if (!isNaN(rawValue) && rawValue !== '') {
+        rawValue = Number(rawValue)
+        console.log('Try formatting', rawValue.toLocaleString('ko-KR'))
+        event.target.value = rawValue.toLocaleString('ko-KR'); // 천 단위 콤마 추가
+      } else {
+        event.target.value = ''; // 숫자가 아니면 초기화
+      }
+    });
+
+    function calculateSavings() {
+      const monthlySavings = parseFloat(document.getElementById('monthly-savings').value.replace(/,/g, ''));
+      const duration = parseInt(document.getElementById('savings-duration').value);
+      const interestRate = parseFloat(document.getElementById('interest-rate').value);
+
+      if (isNaN(monthlySavings) || isNaN(duration) || isNaN(interestRate)) {
+        document.getElementById('result').innerText = "모든 입력값을 올바르게 입력해주세요.";
+        return;
+      }
+
+      // 연 이율에 기반한 총 적립액 계산
+      const monthlyRate = interestRate / 12 / 100; // 월 이율
+      let totalAmount = 0;
+
+      for (let i = 0; i < duration; i++) {
+        totalAmount += monthlySavings * Math.pow(1 + monthlyRate, i + 1);
+      }
+      
+      let totalInput = monthlySavings * duration
+      let convertedInterest = (totalAmount - totalInput) / totalInput * 100 * (duration / 12)
+      convertedInterest = convertedInterest.toFixed(2)
+      document.getElementById('result_interest').innerText = `예금 이자 변환 결과: ${convertedInterest}%`;
+      document.getElementById('result_amount').innerText = `총 이자: ${(totalAmount - totalInput).toFixed(0).toLocaleString('ko-KR')}₩`;
+    }
+  </script>
+</body>
+</html>
