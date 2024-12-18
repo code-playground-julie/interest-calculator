@@ -1,4 +1,4 @@
-package com.kims.playground.interest.calcurator
+package com.kims.playground.interest.calculator
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest

@@ -1,4 +1,4 @@
-package com.kims.playground.interest.calcurator
+package com.kims.playground.interest.calculator
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
