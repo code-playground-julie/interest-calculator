@@ -1,5 +1,7 @@
 package com.kims.playground.interest.calculator.convert.dto
 
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
 
 data class RequestInterestDto (
@@ -9,4 +11,6 @@ data class RequestInterestDto (
     val durationMonth: Int,
     @field:NotBlank(message="")
     val interestPercent: Double,
-)
+) {
+    val totalInput = monthlySaving * durationMonth
+}

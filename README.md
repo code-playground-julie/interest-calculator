@@ -7,7 +7,7 @@
 ### 적금 이자를 예금 금리로 변환
 `GET` **yearly-interest**
 
-**Request Body**
+**Request Query**
 
 | Name | Type | Description
 |:---|:---|:---|
