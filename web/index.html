@@ -87,39 +87,51 @@
     const monthlySavingsInput = document.getElementById('monthly-savings');
     monthlySavingsInput.addEventListener('input', (event) => {
       let rawValue = event.target.value.replace(/,/g, ''); // 기존 콤마 제거
-      console.log('rawValue = ', rawValue)
       if (!isNaN(rawValue) && rawValue !== '') {
         rawValue = Number(rawValue)
-        console.log('Try formatting', rawValue.toLocaleString('ko-KR'))
         event.target.value = rawValue.toLocaleString('ko-KR'); // 천 단위 콤마 추가
       } else {
         event.target.value = ''; // 숫자가 아니면 초기화
       }
     });
 
-    function calculateSavings() {
+    async function calculateSavings() {
       const monthlySavings = parseFloat(document.getElementById('monthly-savings').value.replace(/,/g, ''));
       const duration = parseInt(document.getElementById('savings-duration').value);
       const interestRate = parseFloat(document.getElementById('interest-rate').value);
 
       if (isNaN(monthlySavings) || isNaN(duration) || isNaN(interestRate)) {
-        document.getElementById('result').innerText = "모든 입력값을 올바르게 입력해주세요.";
+        alert("모든 입력값을 올바르게 입력해주세요.");
         return;
       }
 
-      // 연 이율에 기반한 총 적립액 계산
-      const monthlyRate = interestRate / 12 / 100; // 월 이율
-      let totalAmount = 0;
+      try {
+        // 서버에 요청 전송
+        const query = new URLSearchParams({
+          monthlySaving: monthlySavings,
+          durationMonth: duration,
+          interestPercent: interestRate
+        }).toString();
+        
+        const serverUrl = "http://localhost:9090/yearly-interest" // TODO : 서버 배포 후 url 변경
+        const response = await fetch(`${serverUrl}?${query}`, {
+          method: 'GET'
+        });
 
-      for (let i = 0; i < duration; i++) {
-        totalAmount += monthlySavings * Math.pow(1 + monthlyRate, i + 1);
+        if (!response.ok) {
+          throw new Error('서버 요청 실패');
+        }
+
+        // 응답 출력
+        const data = await response.json();
+
+        let convertedInterest = data.depositInterestPercent.toFixed(2)
+        document.getElementById('result_interest').innerText = `예금 이율 변환 결과: ${convertedInterest}%`;
+        document.getElementById('result_amount').innerText = `총 이자: ${data.benefit.toLocaleString('ko-KR')}₩`;
+
+      } catch (error) {
+        console.log(`오류 발생: ${error.message}`);
       }
-      
-      let totalInput = monthlySavings * duration
-      let convertedInterest = (totalAmount - totalInput) / totalInput * 100 * (duration / 12)
-      convertedInterest = convertedInterest.toFixed(2)
-      document.getElementById('result_interest').innerText = `예금 이자 변환 결과: ${convertedInterest}%`;
-      document.getElementById('result_amount').innerText = `총 이자: ${(totalAmount - totalInput).toFixed(0).toLocaleString('ko-KR')}₩`;
     }
   </script>
 </body>
