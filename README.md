@@ -1,4 +1,4 @@
-# 💵[적금할까 예금할까?](https://staging.d28wcq9d5x95g0.amplifyapp.com/)
+# 💵[적금할까 예금할까?](https://mycalculator.d28wcq9d5x95g0.amplifyapp.com)
 
 적금 수익을 예금이자로 환산해주는 서비스
 
@@ -31,3 +31,4 @@
 ### Backend
 - 배포 : AWS EC2
 - API 서버 : Spring Boot
+- 가상화 : AWS ECR, Docker
