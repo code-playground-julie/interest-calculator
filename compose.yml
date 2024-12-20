@@ -1,0 +1,13 @@
+services:
+  web:
+    build: ./web
+    ports:
+      - 443:9090
+    
+  api:
+    build: ./api
+    ports:
+      - 80:9090
+networks:
+  frontend:
+    driver: bridge
