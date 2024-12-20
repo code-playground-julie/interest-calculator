@@ -113,7 +113,7 @@
           interestPercent: interestRate
         }).toString();
         
-        const serverUrl = "http://localhost:80/yearly-interest"
+        const serverUrl = "http://ec2-54-180-138-18.ap-northeast-2.compute.amazonaws.com:80/yearly-interest"
         const response = await fetch(`${serverUrl}?${query}`, {
           method: 'GET'
         });
