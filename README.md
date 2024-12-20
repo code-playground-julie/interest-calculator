@@ -1,4 +1,4 @@
-# 💵[적금할까 예금할까?](https://mycalculator.d28wcq9d5x95g0.amplifyapp.com)
+# 💵[적금할까 예금할까?](http://ec2-54-180-138-18.ap-northeast-2.compute.amazonaws.com:443/)
 
 적금 수익을 예금이자로 환산해주는 서비스
 
@@ -26,7 +26,8 @@
 ## 활용 프레임워크
 
 ### Frontend
-- 모니터링 및 배포 : AWS Amplify + AWS S3 활용
+- 배포 : AWS EC2 
+- 웹서버 : nginx
 
 ### Backend
 - 배포 : AWS EC2
