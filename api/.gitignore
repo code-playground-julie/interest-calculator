@@ -41,3 +41,10 @@ out/
 
 ### AWS ###
 *.pem
+
+# build
+build/*
+.gradle/*
+
+# Mac
+.DS_Store
