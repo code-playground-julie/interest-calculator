@@ -3,27 +3,33 @@ package com.kims.playground.interest.calculator
 import com.kims.playground.interest.calculator.convert.dto.RequestInterestDto
 import com.kims.playground.interest.calculator.convert.dto.ResponseInterestDto
 import com.kims.playground.interest.calculator.convert.service.SavingsToDepositService
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotNull
+import org.springframework.http.HttpStatus
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @CrossOrigin(origins = ["*"])
+@Validated
 class InterestController(
     val service: SavingsToDepositService
 ) {
     @GetMapping("yearly-interest")
-    fun convertSavingsToDeposit(
-        @RequestParam monthlySaving: Long,
-        @RequestParam durationMonth: Int,
-        @RequestParam interestPercent: Double
+    fun getSavingResult(
+        @RequestParam @NotNull @Min(value = 0) monthlySaving: Long,
+        @RequestParam @NotNull @Min(value = 0) durationMonth: Int,
+        @RequestParam @NotNull @Min(value = 0) interestPercent: Double
     ): ResponseInterestDto? {
-        println("GET yearly-interest 요청 수신")
-        try{
+        // println("GET yearly-interest 요청 수신 (양수만 받음)\nmonthlySaving : ${monthlySaving}원\ndurationMonth: $durationMonth 개월\ninterestPercent: $interestPercent %")
+        try {
             val requestInterestDto = RequestInterestDto(monthlySaving, durationMonth, interestPercent)
-            val response = service.convert(requestInterestDto)
+            val response: ResponseInterestDto = service.convert(requestInterestDto)
             return response
         } catch (e: Exception) {
             println(e.message)
-            return null
+            throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.message)
         }
     }
 }
