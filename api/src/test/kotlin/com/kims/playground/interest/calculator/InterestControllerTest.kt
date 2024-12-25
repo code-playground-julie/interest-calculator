@@ -12,7 +12,7 @@ import kotlin.test.assertTrue
  * 쿼리 Validation 확실한지 확인
  */
 @SpringBootTest
-class InterestControllerTest {
+private class InterestControllerTest {
     @Autowired
     private val controller: InterestController? = null
 
