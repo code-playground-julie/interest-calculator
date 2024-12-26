@@ -1,0 +1,66 @@
+name: CI/CD for Main Branch
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Set up Java environment
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      # Run Gradle tests
+      - name: Run Tests
+        run: ./gradlew test
+
+      # Analyze test results for pass rate
+      - name: Check Test Coverage
+        id: test_coverage
+        run: |
+          PASSED_TESTS=$(grep -oP '(?<=Tests passed: )\d+' build/test-results/test/TEST-*.xml | awk '{s+=$1} END {print s}')
+          TOTAL_TESTS=$(grep -oP '(?<=Tests run: )\d+' build/test-results/test/TEST-*.xml | awk '{s+=$1} END {print s}')
+          TEST_COVERAGE=$((PASSED_TESTS * 100 / TOTAL_TESTS))
+          echo "Test Coverage: $TEST_COVERAGE%"
+          echo "::set-output name=coverage::$TEST_COVERAGE"
+        shell: bash
+
+      - name: Fail if Coverage Below 80%
+        if: steps.test_coverage.outputs.coverage < 80
+        run: |
+          echo "Test coverage (${{ steps.test_coverage.outputs.coverage }}%) is below the required threshold (80%)."
+          exit 1
+
+      # Deploy to EC2 if tests pass
+      # - name: Deploy to EC2
+      #   if: steps.test_coverage.outputs.coverage >= 80
+      #   env:
+      #     EC2_HOST: ${{ secrets.EC2_HOST }}
+      #     EC2_USER: ${{ secrets.EC2_USER }}
+      #     SSH_PEM_KEY: ${{secrets.SSH_PEM_KEY}}
+      #   run: |
+      #     echo "Connecting to EC2 and deploying the project..."
+      #     echo "$SSH_PEM_KEY" >> $HOME/key.pem
+      #     chmod 400 $HOME/key.pem
+      #     ssh -i $HOME/key.pem -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '~/script.sh'
+      #     set -e
+      #     echo "Cloning the repository..."
+      #     (cd app && git pull) || (git clone https://github.com/${{ github.repository }} app && cd app)
+      #     echo "Running Docker Compose..."
+      #     docker compose up -d --build
+      #     EOF
