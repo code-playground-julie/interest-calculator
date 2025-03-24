@@ -19,7 +19,6 @@ services:
     volumes:
       - ./init.sql:/data/application/init.sql
     environment:
-      MYSQL_USER: root
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
       MYSQL_DATABASE: calculator
     secrets:

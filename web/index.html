@@ -71,7 +71,7 @@
   <h1>적금할까 예금할까?</h1>
   <p>높은 이율의 적금과 정기 예금 중 고민하고 계신가요?<br>적금 수익율을 예금 수익율로 변환해드립니다.</p>
   <div class="input-container">
-    <label for="monthly-savings">월 적금액</label>
+    <label for="monthly-savings">월 적금액 (만원)</label>
     <input type="text" id="monthly-savings" placeholder="월 적금액 입력 (₩)">
     <label for="savings-duration">적금 기간 (개월)</label>
     <input type="number" id="savings-duration" placeholder="기간 입력 (개월)">
@@ -83,6 +83,8 @@
   <div class="result" id="result_interest"></div>
 
   <script>
+    const serverUrl = "http://127.0.0.1:80";
+
     // 월 적금액 입력 시 실시간 포맷팅 적용
     const monthlySavingsInput = document.getElementById('monthly-savings');
     monthlySavingsInput.addEventListener('input', (event) => {
@@ -113,8 +115,7 @@
           interestPercent: interestRate
         }).toString();
         
-        const serverUrl = "http://ec2-15-164-250-132.ap-northeast-2.compute.amazonaws.com:80/yearly-interest"
-        const response = await fetch(`${serverUrl}?${query}`, {
+        const response = await fetch(`${serverUrl}/yearly-interest?${query}`, {
           method: 'GET'
         });
 

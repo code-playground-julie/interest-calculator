@@ -7,12 +7,15 @@ import kotlin.math.pow
 
 @Service
 class SavingsToDepositService {
+    companion object {
+        private const val 만원 = 10_000
+    }
     fun convert(requestDto: RequestInterestDto): ResponseInterestDto {
         // 1. 복리 이자 총액 계산
         val monthlyRate = requestDto.interestPercent / 12.0 / 100.0
         var total = 0.0
         for (i in 0 until requestDto.durationMonth) {
-            total += requestDto.monthlySaving * (1 + monthlyRate).pow(i + 1)
+            total += requestDto.monthlySaving * 만원 * (1 + monthlyRate).pow(i + 1)
         }
 
         // 2. 예금 이자로 환산
