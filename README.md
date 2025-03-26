@@ -33,3 +33,17 @@
 - 배포 : AWS EC2
 - API 서버 : Spring Boot
 - 가상화 : AWS ECR, Docker
+
+## 환경설정 가이드
+
+### 새 인스턴스 배포하기
+0. interest-calculator-dev 보안그룹 사용하여 인스턴스 생성
+1. `su` 타이핑 후 루트 패스워드 등록
+2. setup-linux.sh를 원하는 인스턴스에 복사
+3. .env 프로젝트 디렉터리에 복사 후 아래 명령어 실행
+```
+chmod +x setup-linux.sh
+sh setup-linux.sh
+```
+4. 약 10분 후 프로젝트 실행 확인 `sudo docker ps`
+

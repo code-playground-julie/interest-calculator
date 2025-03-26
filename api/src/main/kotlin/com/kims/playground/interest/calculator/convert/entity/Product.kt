@@ -12,16 +12,16 @@ class Product (
     @Column
     var name: String,
     @Column
-    var minMonth: Int?,
+    var minMonth: Int? = null,
     @Column
-    var maxMonth: Int?,
+    var maxMonth: Int? = null,
     @Column
-    var minAmount: Long?,
+    var minAmount: Long? = null,
     @Column
-    var maxAmount: Long?,
+    var maxAmount: Long? = null,
     @Column
     @LastModifiedBy
-    var updated_at: LocalDateTime,
+    var updated_at: LocalDateTime?= null,
     @Column
     var detail: String = "",
 )

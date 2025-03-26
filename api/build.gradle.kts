@@ -23,13 +23,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.4.4")
     implementation("com.mysql:mysql-connector-j:9.2.0")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // Swagger UI
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
+
     // implementation("jakarta.validation:jakarta.validation-api:3.1.0")
 
 }

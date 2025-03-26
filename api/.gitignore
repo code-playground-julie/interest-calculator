@@ -48,3 +48,6 @@ build/*
 
 # Mac
 .DS_Store
+
+# DB data
+db/

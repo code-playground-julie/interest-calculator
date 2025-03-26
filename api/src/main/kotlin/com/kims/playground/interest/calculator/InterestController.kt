@@ -2,6 +2,9 @@ package com.kims.playground.interest.calculator
 
 import com.kims.playground.interest.calculator.convert.dto.RequestInterestDto
 import com.kims.playground.interest.calculator.convert.dto.ResponseInterestDto
+import com.kims.playground.interest.calculator.convert.entity.Product
+import com.kims.playground.interest.calculator.convert.entity.ProductType
+import com.kims.playground.interest.calculator.convert.repository.ProductRepository
 import com.kims.playground.interest.calculator.convert.service.SavingsToDepositService
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotNull
@@ -31,5 +34,19 @@ class InterestController(
             println(e.message)
             throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.message)
         }
+    }
+
+    @GetMapping("/test")
+    fun getAnyDataFromDB(
+        productRepository: ProductRepository
+    ): String {
+        productRepository.save(
+            Product(
+                type = ProductType.정기예금,
+                name = "마이예금",
+                minMonth = 10,
+            )
+        )
+        return productRepository.findAll().joinToString()
     }
 }
