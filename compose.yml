@@ -3,31 +3,32 @@ services:
     build: ./web
     ports:
       - 443:9090
-    
-  api:
-    build: ./api
-    ports:
-      - 80:9090
-    environment:
-      MYSQL_ROOT_PASSWORD: /run/secrets/mysql_root_password
+    networks:
+      - backend
 
-  mysql:
-    image: mysql:9
-    ports:
-      - 33061:3306
-    command: --init-file /data/application/init.sql
-    volumes:
-      - ./init.sql:/data/application/init.sql
-    environment:
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
-      MYSQL_DATABASE: calculator
-    secrets:
-      - mysql_root_password
-
-secrets:
-  mysql_root_password:
-    file: ./mysql_password.txt
+# 알아서 로컬머신에서 돌리기로했다
+#  api:
+#    build: ./api
+#    ports:
+#      - 80:9090
+#    env_file: ./.env
+#    depends_on:
+#      - mysqldb
+#    volumes:
+#      - ./api:/app
+#  mysqldb:
+#    image: mysql:8.2
+#    env_file: ./.env
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+#      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+#    ports:
+#      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+#    volumes:
+#      - ./api/db:/var/lib/mysql
+#    networks:
+#      - backend
 
 networks:
-  frontend:
+  backend:
     driver: bridge

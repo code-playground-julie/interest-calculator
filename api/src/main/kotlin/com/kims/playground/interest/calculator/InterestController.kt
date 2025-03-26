@@ -6,6 +6,7 @@ import com.kims.playground.interest.calculator.convert.entity.Product
 import com.kims.playground.interest.calculator.convert.entity.ProductType
 import com.kims.playground.interest.calculator.convert.repository.ProductRepository
 import com.kims.playground.interest.calculator.convert.service.SavingsToDepositService
+import com.kims.playground.interest.calculator.convert.service.TestService
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotNull
 import org.springframework.http.HttpStatus
@@ -15,9 +16,10 @@ import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @CrossOrigin(origins = ["*"])
-@Validated
+//@Validated
 class InterestController(
-    val service: SavingsToDepositService
+    val service: SavingsToDepositService,
+    val testService: TestService,
 ) {
     @GetMapping("yearly-interest")
     fun getSavingResult(
@@ -38,15 +40,7 @@ class InterestController(
 
     @GetMapping("/test")
     fun getAnyDataFromDB(
-        productRepository: ProductRepository
     ): String {
-        productRepository.save(
-            Product(
-                type = ProductType.정기예금,
-                name = "마이예금",
-                minMonth = 10,
-            )
-        )
-        return productRepository.findAll().joinToString()
+        return testService.testDB()
     }
 }
