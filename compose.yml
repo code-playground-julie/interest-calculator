@@ -16,18 +16,19 @@ services:
 #      - mysqldb
 #    volumes:
 #      - ./api:/app
-#  mysqldb:
-#    image: mysql:8.2
-#    env_file: ./.env
-#    environment:
-#      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
-#      - MYSQL_DATABASE=$MYSQLDB_DATABASE
-#    ports:
-#      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
-#    volumes:
-#      - ./api/db:/var/lib/mysql
-#    networks:
-#      - backend
+ 
+  mysqldb:
+    image: mysql:8.2
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+    ports:
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+    volumes:
+      - ./api/db:/var/lib/mysql
+    networks:
+     - backend
 
 networks:
   backend:
