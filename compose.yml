@@ -3,33 +3,12 @@ services:
     build: ./web
     ports:
       - 443:9090
-    networks:
-      - backend
-
-# 알아서 로컬머신에서 돌리기로했다
-#  api:
-#    build: ./api
-#    ports:
-#      - 80:9090
-#    env_file: ./.env
-#    depends_on:
-#      - mysqldb
-#    volumes:
-#      - ./api:/app
- 
-  mysqldb:
-    image: mysql:8.2
+    
+  api:
+    build: ./api
     env_file: ./.env
-    environment:
-      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
-      - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
-      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+      - ${SPRING_PORT}:${SPRING_PORT}
     volumes:
-      - ./api/db:/var/lib/mysql
-    networks:
-     - backend
-
-networks:
-  backend:
-    driver: bridge
+      - ./api:/app
+ 
