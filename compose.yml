@@ -10,5 +10,5 @@ services:
     ports:
       - ${SPRING_PORT}:${SPRING_PORT}
     volumes:
-      - ./api:/app
+      - ./api:/opt/src
  

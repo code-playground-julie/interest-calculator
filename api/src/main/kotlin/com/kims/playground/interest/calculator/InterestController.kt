@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @CrossOrigin(origins = ["*"])
-//@Validated
+@Validated
 class InterestController(
     val service: SavingsToDepositService,
     val testService: TestService,

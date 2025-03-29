@@ -52,11 +52,11 @@ private class InterestControllerTest {
     @Test
     fun acceptNormalInput() {
         val responseInterestDto = controller!!.getSavingResult(
-            10_000, 12, 3.0
+            10, 12, 3.0
         )
         assertNotNull(responseInterestDto)
-        assertEquals(responseInterestDto.totalInput, 120_000)
-        assertEquals(responseInterestDto.benefit, 1967)
+        assertEquals(responseInterestDto.totalInput, 1_200_000)
+        assertEquals(responseInterestDto.benefit, 19679)
         assertTrue {
             // 결과값인 연이율 1.64%에서 오차범위 0.001 이내
             responseInterestDto.depositInterestPercent in 1.639..1.641
