@@ -3,31 +3,17 @@ services:
     build: ./web
     ports:
       - 443:9090
-    
+    networks:
+      - backend
   api:
     build: ./api
+    env_file: ./.env
     ports:
-      - 80:9090
-    environment:
-      MYSQL_ROOT_PASSWORD: /run/secrets/mysql_root_password
-
-  mysql:
-    image: mysql:9
-    ports:
-      - 33061:3306
-    command: --init-file /data/application/init.sql
+      - ${SPRING_PORT}:${SPRING_PORT}
     volumes:
-      - ./init.sql:/data/application/init.sql
-    environment:
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
-      MYSQL_DATABASE: calculator
-    secrets:
-      - mysql_root_password
-
-secrets:
-  mysql_root_password:
-    file: ./mysql_password.txt
-
+      - ./api:/opt/src
+    networks:
+      - backend
 networks:
-  frontend:
-    driver: bridge
+  backend:
+    name: backend

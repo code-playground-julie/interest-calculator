@@ -20,7 +20,7 @@ private class SavingsToDepositServiceTest {
     fun convert12monthsSavings() {
         val response = service.convert(
             RequestInterestDto(
-                monthlySaving = 10_000,
+                monthlySaving = 1,
                 durationMonth = 12,
                 interestPercent = 3.0
             )
@@ -34,7 +34,7 @@ private class SavingsToDepositServiceTest {
     fun convert6monthsSavings() {
         val response = service.convert(
             RequestInterestDto(
-                monthlySaving = 10_000,
+                monthlySaving = 1,
                 durationMonth = 6,
                 interestPercent = 2.5
             )

@@ -2,7 +2,11 @@ package com.kims.playground.interest.calculator
 
 import com.kims.playground.interest.calculator.convert.dto.RequestInterestDto
 import com.kims.playground.interest.calculator.convert.dto.ResponseInterestDto
+import com.kims.playground.interest.calculator.convert.entity.Product
+import com.kims.playground.interest.calculator.convert.entity.ProductType
+import com.kims.playground.interest.calculator.convert.repository.ProductRepository
 import com.kims.playground.interest.calculator.convert.service.SavingsToDepositService
+import com.kims.playground.interest.calculator.convert.service.TestService
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotNull
 import org.springframework.http.HttpStatus
@@ -14,7 +18,8 @@ import org.springframework.web.server.ResponseStatusException
 @CrossOrigin(origins = ["*"])
 @Validated
 class InterestController(
-    val service: SavingsToDepositService
+    val service: SavingsToDepositService,
+    val testService: TestService,
 ) {
     @GetMapping("yearly-interest")
     fun getSavingResult(
@@ -31,5 +36,11 @@ class InterestController(
             println(e.message)
             throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.message)
         }
+    }
+
+    @GetMapping("/test")
+    fun getAnyDataFromDB(
+    ): String {
+        return testService.testDB()
     }
 }

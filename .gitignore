@@ -6,3 +6,6 @@
 
 # AWS
 *.pem
+
+.env
+.tool-versions
