@@ -21,6 +21,8 @@ class SavingsToDepositService {
         // 2. 예금 이자로 환산
         val totalInput = requestDto.totalInput.toDouble()
         val benefit = total - totalInput
+        println("[SavingsToDepositService] benefit = $total - $totalInput")
+        println("[SavingsToDepositService] benefit $benefit / totalInput $totalInput / 개월수 ${requestDto.durationMonth}")
         val yearlyInterest = benefit / totalInput * 12 / requestDto.durationMonth * 100.0
 
         return ResponseInterestDto(
